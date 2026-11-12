@@ -1,0 +1,30 @@
+databases:
+  - name: districtx-db
+    plan: free
+    databaseName: districtx
+    user: districtx
+
+services:
+  - type: web
+    name: districtx-api
+    runtime: docker
+    rootDir: backend
+    plan: starter
+    healthCheckPath: /api/experiences
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: districtx-db
+          property: connectionString
+      - key: DB_USERNAME
+        fromDatabase:
+          name: districtx-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: districtx-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
